@@ -1,0 +1,33 @@
+{
+  "albums": [
+    {
+      "folder": "Aujla Special",
+      "title": "Aujla Special",
+      "artist": "Karan Aujla",
+      "cover": "cover.jpeg",
+      "tracks": [
+        "song-one",
+        "song-two"
+      ]
+    },
+    {
+      "folder": "ncs",
+      "title": "NCS Collection",
+      "artist": "NCS",
+      "cover": "cover.jpeg",
+      "tracks": [
+        "track-1",
+        "track-2"
+      ]
+    },
+    {
+      "folder": "cs",
+      "title": "CS Album",
+      "artist": "CS Artist",
+      "cover": "cover.jpeg",
+      "tracks": [
+        "cs-song-1"
+      ]
+    }
+  ]
+}
