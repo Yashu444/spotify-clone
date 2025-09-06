@@ -35,127 +35,132 @@ function randomImg() {
     return footerImg[randomIndex];
 }
 
+// ---------- helper: load manifest once ----------
+let manifestCache = null;
+async function loadManifest() {
+  if (manifestCache) return manifestCache;
+  const res = await fetch('/songs/manifest.json');
+  if (!res.ok) {
+    console.error('Failed to load manifest.json', res.status);
+    return null;
+  }
+  manifestCache = await res.json();
+  return manifestCache;
+}
+
+// ---------- play a track (safe paths) ----------
 const playsong = (track, pause = false) => {
-    currentaudio.src = `${currFolder}/` + track + ".mp3";
+  if (!track) {
+    console.error('playsong called with empty track');
+    return;
+  }
 
-    if (!pause) {
-        currentaudio.play();
-        play.src = "assets/play.svg";
-    }
+  // currFolder must be absolute-encoded already (set in getSongs)
+  currentaudio.src = `${currFolder}/${encodeURIComponent(track)}.mp3`;
 
-    document.querySelector(".songdetail").innerHTML = `
-        <img src="${randomImg()}" alt="cover" width="45px">
-        <a>${track}</a>`;
+  if (!pause) {
+    currentaudio.play().catch(e => console.warn('play() blocked', e));
+    play.src = "assets/play.svg";
+  }
+
+  document.querySelector(".songdetail").innerHTML = `
+    <img src="${randomImg()}" alt="cover" width="45px">
+    <a>${track}</a>`;
 }
 
-// ------------------------- Fetch songs in a folder -------------------------
-async function getSongs(folder) {
-    currFolder = folder;
+// ---------- getSongs: uses manifest instead of directory listing ----------
+async function getSongs(folderName) {
+  // folderName: e.g. "Aujla Special" (not "/songs/...", not "songs/...")
+  const data = await loadManifest();
+  if (!data) return;
 
-    let a = await fetch(`/songs/${folder}`);
-    let response = await a.text();
-    let div = document.createElement("div");
-    div.innerHTML = response;
-    let as = div.getElementsByTagName("a");
+  const album = data.albums.find(a => a.folder === folderName);
+  if (!album) {
+    console.error('Album not found in manifest:', folderName);
+    return;
+  }
 
-    songs = [];
-    for (let index = 0; index < as.length; index++) {
-        const element = as[index];
-        if (element.href.endsWith(".mp3")) {
-            songs.push(
-                decodeURIComponent(element.href.split(`${folder}`)[1]).replace(".mp3", "").replace("/", "")
-            );
-        }
-    }
+  // set currFolder to an absolute, encoded path
+  currFolder = `/songs/${encodeURIComponent(album.folder)}`;
+  coverimg = `${currFolder}/${encodeURIComponent(album.cover || 'cover.jpeg')}`;
 
-    let songul = document.querySelector(".songlist ul");
-    songul.innerHTML = "";
+  // build songs array (strip .mp3 if provided)
+  songs = (album.tracks || []).map(t => t.replace(/\.mp3$/i, ''));
 
-    for (const song of songs) {
-        songul.innerHTML += `
-        <li data-song="${song}">
-            <img class="libimg" src="${coverimg}" alt="cover" width="45px">
-            <span>${song}</span>
-            <img id="libplay" src="assets/library_play.svg" alt="">
-        </li>`;
-    }
+  // render list
+  let songul = document.querySelector(".songlist ul");
+  songul.innerHTML = "";
+  for (const song of songs) {
+    songul.innerHTML += `
+      <li data-song="${song}">
+        <img class="libimg" src="${coverimg}" alt="cover" width="45px">
+        <span>${song}</span>
+        <img id="libplay" src="assets/library_play.svg" alt="">
+      </li>`;
+  }
 
-    Array.from(document.querySelector(".songlist").getElementsByTagName("li")).forEach(e => {
-        e.addEventListener("click", () => {
-            playsong(e.dataset.song);
-        })
-    })
+  // attach click handlers
+  Array.from(document.querySelectorAll(".songlist li")).forEach(e => {
+    e.addEventListener("click", () => {
+      playsong(e.dataset.song);
+    });
+  });
 }
 
-// ------------------------- Fetch all album folders -------------------------
+// ---------- getAlbums: read manifest and render cards ----------
 async function getAlbums() {
-    let a = await fetch(`/songs`);
-    let response = await a.text();
-    let div = document.createElement("div");
-    div.innerHTML = response;
-    let anchor = div.getElementsByTagName("a");
+  const data = await loadManifest();
+  if (!data) return;
 
-    folders = [];
-    Array.from(anchor).forEach(e => {
-        if (e.href.includes("/songs")) {
-            let folder = e.href.split("/").slice(-2)[0];
-            folders.push(folder);
-        }
+  folders = data.albums.map(a => a.folder);
+
+  const cards = document.querySelector(".cards");
+  cards.innerHTML = "";
+
+  data.albums.forEach(album => {
+    const folderEnc = encodeURIComponent(album.folder);
+    const coverPath = `/songs/${folderEnc}/${encodeURIComponent(album.cover || 'cover.jpeg')}`;
+
+    cards.innerHTML += `
+      <div data-folder="${album.folder}" class="card flex">
+        <img src="${coverPath}" alt="card">
+        <a href="#">${album.title}</a>
+        <p>${album.artist}</p>
+      </div>`;
+  });
+
+  // attach click listeners to cards
+  Array.from(document.getElementsByClassName("card")).forEach(e => {
+    e.addEventListener("click", async item => {
+      const folder = item.currentTarget.dataset.folder;
+      await getSongs(folder);
+      playlist.src = "assets/playlist.svg";
+      if (window.innerWidth < 768) {
+        sidebar.style.width = "99%";
+        content.style.display = "none";
+      } else {
+        sidebar.style.width = "21vw";
+        library.style.padding = "20px 20px 14px 30px";
+      }
     });
-
-    let array = Array.from(anchor)
-    for (let index = 0; index < array.length; index++) {
-        const e = array[index];
-
-        if (e.href.includes("/songs")) {
-            let folder = (e.href.split("/").slice(-2)[0]);
-            // getting the title and description of perticular albums
-            let a = await fetch(`/songs/${folder}/info.json`);
-            let response = await a.json();
-            console.log(response);
-            let cards = document.querySelector(".cards");
-            cards.innerHTML += `
-                    <div data-folder="${folder}" class="card flex">
-                        <img src="/songs/${folder}/cover.jpeg" alt="card">
-                        <a href="#">${response.title}</a>
-                        <p>${response.artist}</p>
-                    </div>`;
-            coverimg = `/songs/${folder}/cover.jpeg`;
-        }
-    }
-
-    // add card click feature
-    Array.from(document.getElementsByClassName("card")).forEach(e => {
-        e.addEventListener("click", async item => {
-            let folder = `songs/${item.currentTarget.dataset.folder}`;
-            coverimg = `${folder}/cover.jpeg`;
-            await getSongs(folder);
-            playlist.src = "assets/playlist.svg";
-            if (window.innerWidth < 768) {
-                sidebar.style.width = "99%";
-                content.style.display = "none";
-            }
-            else {
-                sidebar.style.width = "21vw";
-                library.style.padding = "20px 20px 14px 30px";
-            }
-        })
-    });
-
+  });
 }
+
 
 async function main() {
     // list all albums
     await getAlbums();
 
-    // set currFolder
-    initialFolder = folders[0];
-    const initialPath = `/songs/${initialFolder}`;
-    coverimg = `${initialPath}/cover.jpeg`;
-
-    // list all songs from the first album
-    await getSongs(`songs/${initialFolder}`);
-    playsong(songs[0], true);
+ // set currFolder from the first manifest item, if exists
+  initialFolder = folders[0];
+  if (initialFolder) {
+    coverimg = `/songs/${encodeURIComponent(initialFolder)}/cover.jpeg`;
+    // IMPORTANT: pass only the folder name (no double 'songs/')
+    await getSongs(initialFolder);
+    if (songs && songs.length) playsong(songs[0], true);
+  } else {
+    console.warn('No albums found in manifest');
+  }
 
     play.addEventListener("click", () => {
         if (currentaudio.paused) {
@@ -402,3 +407,4 @@ async function main() {
 }
 
 main();
+
