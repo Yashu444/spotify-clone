@@ -6,8 +6,8 @@
       "artist": "Karan Aujla",
       "cover": "cover.jpeg",
       "tracks": [
-        "song-one",
-        "song-two"
+        "Winning Speech - Karan Aujla",
+        "Wavy"
       ]
     },
     {
@@ -16,8 +16,8 @@
       "artist": "NCS",
       "cover": "cover.jpeg",
       "tracks": [
-        "track-1",
-        "track-2"
+        "Arbi Ghode",
+        "Lofar"
       ]
     },
     {
@@ -26,7 +26,7 @@
       "artist": "CS Artist",
       "cover": "cover.jpeg",
       "tracks": [
-        "cs-song-1"
+        "For A Reason - Karan Aujla"
       ]
     }
   ]
