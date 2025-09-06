@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Web Player: Music for everyone</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="utility.css">
+</head>
+
+<body>
+
+    <nav class="flex items-center">
+        <div class="lefticons flex items-center">
+            <div id="logobtn" class="logo pointer items-center">
+                <img src="assets/logo.svg" alt="logo">
+            </div>
+            <div class="home flex items-center">
+                <button id="homebtn" class="homebtn pointer"><img src="assets/home.svg" alt="home"></button>
+                <div class="search flex">
+                    <input type="text" placeholder="What do you want to play?" id="searchoption">
+                </div>
+            </div>
+        </div>
+        <div class="righticons flex items-center">
+            <button class="signup pointer bold">Sign up</button>
+            <button class="login pointer bold">Log in</button>
+        </div>
+        <small id="mobilecopy">© 2025 Yash Patel · Built with 🩶</small>
+    </nav>
+
+    <main class="flex">
+        <div id="sidebar" class="sidebar">
+            <div id="library" class="library flex items-center">
+                <img id="playlist" class="playlist-icon pointer" src="assets/playlist.svg" alt="playlist">
+                <h4 class="pointer">Your Library</h4>
+            </div>
+            <div class="songlist flex">
+                <ul></ul>
+            </div>
+        </div>
+        <div id="content" class="content flex">
+            <div class="trendheading flex bold">
+                <a href="#">Your playlists</a>
+                <a href="#" id="showall">Show all</a>
+            </div>
+            <div class="cards flex">
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer">
+        <div class="playbar flex">
+            <img id="dragger" src="assets/dragger.svg" alt="">
+            <div id="songinfo" class="songinfo flex">
+                <div class="songdetail flex justify-center"></div>
+            </div>
+            <div class="songicons flex items-center">
+                <div class="songcentericon flex items-center">
+                    <div class="songcontrols flex">
+                        <img src="assets/forward.svg" alt="backward" id="previous" class="previous rotate pointer"
+                            width="16px">
+                        <img src="assets/pause.svg" alt="play" id="play" class="pointer" width="32px">
+                        <img src="assets/forward.svg" alt="forward" id="next" class="pointer" width="16px">
+                    </div>
+                    <div class="songtime flex items-center">
+                        <h5 id="currtime">0:00</h5>
+                        <input id="timebar" type="range" min="0" max="100" value="0">
+                        <h5 id="totaltime">2:20</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="songvolume flex items-center">
+                <div class="volume1 flex items-center">
+                    <img src="assets/volume.svg" alt="volume" id="volume" class="pointer" width="18px">
+                    <input id="volumebar" type="range" min="0" max="100" value="40">
+                </div>
+                <div class="copyright">
+                    <small id="copy">© 2025 Yash Patel · Built with 🩶 ·
+                        <a href="https://www.linkedin.com/in/yashpatell7/"><img id="linkedin" src="assets/linkedin.png"
+                                alt="LinkedIn" width="16px"></a><a href="https://github.com/Yashu444"><img id="github"
+                                src="assets/github.png" alt="Github" width="17px"></a>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <img id="closebtn" src="assets/close.svg" alt="">
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
