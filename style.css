@@ -240,7 +240,7 @@ a:hover {
 
 .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 200px));
     gap: 16px;
     padding: 0.8vw 1vw;
     overflow-y: auto;
@@ -490,6 +490,10 @@ footer .copyright img {
         margin: 0;
     }
 
+    .cards {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
     .card {
         max-width: 250px;
         padding: 3vw;
@@ -505,11 +509,11 @@ footer .copyright img {
         font-size: 0.7rem;
     }
 
-    .trendheading :nth-child(1){
+    .trendheading :nth-child(1) {
         font-size: 1.2rem;
     }
 
-    .trendheading #showall{
+    .trendheading #showall {
         font-size: 0.7rem;
     }
 
