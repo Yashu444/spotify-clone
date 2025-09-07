@@ -293,8 +293,9 @@ a:hover {
 }
 
 footer {
-    position: absolute;
-    width: 99%;
+    position: fixed;
+    width: calc(100% - 16px);
+    max-width: 1400px;
     display: flex;
     align-items: center;
     padding: 16px;
@@ -302,8 +303,11 @@ footer {
     bottom: 1px;
     transform: translateX(-50%);
     background-color: rgba(91, 91, 91, 0.15);
-    border-radius: 4px;
+    border-radius: 8px;
     border-top: 0.4px solid rgba(245, 245, 220, 0.25);
+    z-index: 9999;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 1);
+    transition: all 0.25s ease;
 }
 
 .playbar {
@@ -470,6 +474,10 @@ footer .copyright img {
     display: none;
 }
 
+#blackbox {
+    display: none;
+}
+
 @media (max-width:768px) {
     .homebtn {
         width: 40px;
@@ -504,8 +512,10 @@ footer .copyright img {
     }
 
     footer {
-        width: 98%;
+        position: fixed;
+        width: calc(100% - 16px);
         left: 50%;
+        z-index: 9999;
         transform: translateX(-50%);
         border-top: 0.9px solid rgba(189, 174, 146, 0.725);
         background-color: rgba(40, 40, 40, 0.85);
@@ -550,6 +560,7 @@ footer .copyright img {
         position: absolute;
         bottom: 10px;
         margin-left: 10px;
+        z-index: 20;
     }
 
     .righticons {
@@ -562,6 +573,7 @@ footer .copyright img {
         position: absolute;
         right: 18px;
         bottom: 19px;
+        z-index: 20;
     }
 
     #sidebar {
@@ -570,7 +582,7 @@ footer .copyright img {
 
     /* for footer click */
     .footer-expanded {
-        height: 22vh;
+        height: 28vh;
         background-color: rgba(40, 40, 40, 0.97);
         border-top: 0.8px solid rgba(189, 174, 146, 0.725);
         border-left: 0.5px solid rgba(189, 174, 146, 0.725);
@@ -654,7 +666,7 @@ footer .copyright img {
         position: absolute;
         transform: translateX(-50%) !important;
         left: 50%;
-        top: -12px;
+        top: 8px;
         width: 60px;
 
         opacity: 0;
@@ -671,5 +683,17 @@ footer .copyright img {
         top: 33px;
     }
 
+    #blackbox {
+        display: block;
+        background-color: black;
+        position: absolute;
+        bottom: 0;
+        width: 98%;
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 10px);
+        height: 16vh;
+        z-index: 10;
+    }
 
 }
