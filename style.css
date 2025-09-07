@@ -515,6 +515,7 @@ footer .copyright img {
     footer {
         position: fixed;
         width: calc(100% - 16px);
+        height: 8vh;
         left: 50%;
         z-index: 9999;
         transform: translateX(-50%);
@@ -583,11 +584,11 @@ footer .copyright img {
 
     /* for footer click */
     .footer-expanded {
-        height: 28vh;
+        height: 28vh !important;
         background-color: rgba(40, 40, 40, 0.97);
         border-top: 0.8px solid rgba(189, 174, 146, 0.725);
         border-left: 0.5px solid rgba(189, 174, 146, 0.725);
-        transition: all 0.2s ease-in-out;
+        transition: all 0.3s ease-in-out;
     }
 
     .footer-expanded #closebtn {
@@ -623,7 +624,7 @@ footer .copyright img {
     }
 
     .footer-expanded .songtime input[type="range"] {
-        width: 80vw;
+        width: 74vw;
         height: 8px;
     }
 
@@ -683,18 +684,4 @@ footer .copyright img {
         position: absolute;
         top: 33px;
     }
-
-    #blackbox {
-        display: block;
-        background-color: black;
-        position: absolute;
-        bottom: 0;
-        width: 98%;
-        position: absolute;
-        bottom: 0;
-        width: calc(100% - 10px);
-        height: 16vh;
-        z-index: 10;
-    }
-
 }
