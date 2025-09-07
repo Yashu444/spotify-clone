@@ -507,6 +507,7 @@ footer .copyright img {
     }
 
     .content {
+        height: 78vh;
         position: relative;
         left: -4px;
     }
