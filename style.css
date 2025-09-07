@@ -515,7 +515,7 @@ footer .copyright img {
     footer {
         position: fixed;
         width: calc(100% - 16px);
-        height: 8vh;
+        height: 9vh;
         left: 50%;
         z-index: 9999;
         transform: translateX(-50%);
@@ -685,3 +685,4 @@ footer .copyright img {
         top: 33px;
     }
 }
+
