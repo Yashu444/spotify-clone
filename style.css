@@ -239,22 +239,21 @@ a:hover {
 }
 
 .cards {
-    margin-left: 12px;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 4px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
     padding: 0.8vw 1vw;
     overflow-y: auto;
     scroll-behavior: smooth;
     scrollbar-color: rgba(128, 128, 128, 0.25) transparent;
     scrollbar-width: thin;
+    justify-items: center;
 }
 
 .card {
-    flex: 0 0 auto;
     flex-direction: column;
-    padding: 0.8vw;
-    width: 173px;
+    padding: 1vw;
+    max-width: 200px;
     cursor: pointer;
 }
 
@@ -492,7 +491,26 @@ footer .copyright img {
     }
 
     .card {
-        margin-top: 10px;
+        max-width: 250px;
+        padding: 3vw;
+    }
+
+    .card a {
+        margin-top: 8px;
+        font-size: 0.95rem;
+    }
+
+    .card p {
+        margin-top: 0;
+        font-size: 0.7rem;
+    }
+
+    .trendheading :nth-child(1){
+        font-size: 1.2rem;
+    }
+
+    .trendheading #showall{
+        font-size: 0.7rem;
     }
 
     a {
@@ -518,7 +536,7 @@ footer .copyright img {
     footer {
         position: fixed;
         width: calc(100% - 16px);
-        height: 8.5vh;
+        height: 9vh;
         left: 50%;
         z-index: 9999;
         transform: translateX(-50%);
@@ -683,7 +701,7 @@ footer .copyright img {
     #mobilecopy {
         display: block;
         color: rgba(106, 106, 106, 0.5);
-        font-size: 0.57rem;
+        font-size: 0.5rem;
         position: absolute;
         top: 33px;
     }
